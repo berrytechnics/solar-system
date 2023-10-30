@@ -1,20 +1,44 @@
 import * as _3 from "three";
-
 const manager = new _3.LoadingManager();
 const TextureLoader = new _3.TextureLoader(manager);
-
+/**
+ * A class that represents an orbital system.
+ *
+ * The parent system is the center of the whole (the sun).
+ * Any system can contain any number of moons (sus-systems).
+ * All systems are orbiting around their parent system.
+ *
+ * @property name
+ * @property radius
+ * @property resolution
+ * @property position
+ * @property rotation
+ * @property textureFile
+ * @property normalFile
+ * @property specularFile
+ * @property cloudFile
+ * @property mesh
+ * @property cloudMoesh
+ * @property group
+ * @property moons
+ *
+ * @method getEdge gets the edge of the orbital system.
+ * @method addMoon adds a moon to the orbital system.
+ * @method getMoon gets a moon from the orbital system by name.
+ * @method rotateSystem rotates the orbital system.
+ */
 export default class System {
 	public name: string;
 	public radius: number;
 	public resolution: any;
 	public position: number;
 	public rotation: number;
-	public textureFile: any;
-	public normalFile: any;
-	public specularFile: any;
-	public cloudFile: any;
+	public textureFile?: any;
+	public normalFile?: any;
+	public specularFile?: any;
+	public cloudFile?: any;
 	public mesh: any;
-	public cloudMesh: any;
+	public cloudMesh?: any;
 	public group = new _3.Group();
 	public moons: any[] = [];
 
@@ -38,9 +62,8 @@ export default class System {
 		this.normalFile = params?.normalFile;
 		this.specularFile = params?.specularFile;
 		this.cloudFile = params?.cloudFile;
-		//--
 		this._initMesh();
-		this._initAtmosphere();
+		this.cloudFile && this._initAtmosphere();
 		return this;
 	}
 
@@ -66,7 +89,6 @@ export default class System {
 	}
 
 	private _initAtmosphere() {
-		if (!this.cloudFile) return;
 		const geometry = new _3.SphereGeometry(
 			this.radius,
 			this.resolution,
@@ -91,12 +113,15 @@ export default class System {
 	}
 
 	public getMoon(name: string) {
-		return this.moons.find(
-			(moon) => moon.name.toLowerCase() === name.toLowerCase(),
-		);
+		return this.moons.find((moon) => moon.name === name);
 	}
 
 	public rotateSystem() {
 		this.group.rotation.y += this.rotation * 0.0001;
+	}
+
+	public rotateAllSystems() {
+		this.rotateSystem();
+		this.moons.length && this.moons.forEach((moon) => moon.rotateAllSystems());
 	}
 }
