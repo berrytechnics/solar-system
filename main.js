@@ -1,6 +1,7 @@
 import "./style.css";
 import * as _3 from "three";
 import System from "./System";
+import { gui } from "dat.gui";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 let scene, camera, renderer, controls, system, Sol, Earth;
 const init = () => {
@@ -42,16 +43,18 @@ const init = () => {
 			name: "Sol",
 			radius: 100,
 			position: 0,
-			rotation: 10,
 			resolution: 200,
 			textureFile: "./images/sun.jpg",
+			gui,
 		});
+		Sol.setRotation(10);
 		Sol.addMoon(
 			new System({
 				name: "Mercury",
 				radius: 5,
 				position: 150,
 				resolution: 10,
+				gui,
 			}),
 		);
 		Sol.addMoon(
@@ -60,6 +63,7 @@ const init = () => {
 				radius: 8,
 				position: 350,
 				resolution: 10,
+				gui,
 			}),
 		);
 		Sol.addMoon(
@@ -68,11 +72,11 @@ const init = () => {
 				radius: 10,
 				position: 550,
 				resolution: 10,
-				rotation: 100,
 				cloudFile: "./images/earth_clouds.png",
 				normalFile: "./images/earth_normal.jpg",
 				textureFile: "./images/earth_day.jpg",
 				specularFile: "./images/earth_specular.jpg",
+				gui,
 			}),
 		);
 		Sol.addMoon(
@@ -81,6 +85,7 @@ const init = () => {
 				radius: 8,
 				position: 800,
 				resolution: 10,
+				gui,
 			}),
 		);
 		Sol.addMoon(
@@ -89,6 +94,7 @@ const init = () => {
 				radius: 56,
 				position: 2000,
 				resolution: 10,
+				gui,
 			}),
 		);
 		Sol.addMoon(
@@ -97,6 +103,7 @@ const init = () => {
 				radius: 25,
 				position: 2800,
 				resolution: 10,
+				gui,
 			}),
 		);
 		Sol.addMoon(
@@ -105,6 +112,7 @@ const init = () => {
 				radius: 29,
 				position: 3900,
 				resolution: 10,
+				gui,
 			}),
 		);
 		Sol.addMoon(
@@ -113,6 +121,7 @@ const init = () => {
 				radius: 23,
 				position: 5000,
 				resolution: 10,
+				gui,
 			}),
 		);
 
@@ -124,8 +133,10 @@ const init = () => {
 			resolution: 10,
 			textureFile: "./images/moon.jpg",
 			normalFile: "./images/moon_normal.jpg",
+			gui,
 		});
 		Earth.addMoon(Luna);
+		Earth.setRotation(25);
 	}
 
 	// Init there be light. day5

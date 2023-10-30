@@ -21,6 +21,7 @@ const TextureLoader = new _3.TextureLoader(manager);
  * @property cloudMoesh
  * @property group
  * @property moons
+ * @property gui
  *
  * @method getEdge gets the edge of the orbital system.
  * @method addMoon adds a moon to the orbital system.
@@ -32,7 +33,6 @@ export default class System {
 	public radius: number;
 	public resolution: any;
 	public position: number;
-	public rotation: number;
 	public textureFile?: any;
 	public normalFile?: any;
 	public specularFile?: any;
@@ -41,27 +41,28 @@ export default class System {
 	public cloudMesh?: any;
 	public group = new _3.Group();
 	public moons: any[] = [];
+	private gui: any;
 
 	constructor(params: {
 		name: string;
 		radius: number;
 		position: number;
-		rotation?: number;
 		resolution: { x: number; y: number };
 		textureFile?: any;
 		normalFile?: any;
 		specularFile?: any;
 		cloudFile?: any;
+		gui?: any;
 	}) {
 		this.name = params.name;
 		this.radius = params.radius;
 		this.position = params.position;
 		this.resolution = params.resolution;
-		this.rotation = params.rotation ?? 0;
 		this.textureFile = params?.textureFile;
 		this.normalFile = params?.normalFile;
 		this.specularFile = params?.specularFile;
 		this.cloudFile = params?.cloudFile;
+		this.gui = params?.gui;
 		this._initMesh();
 		this.cloudFile && this._initAtmosphere();
 		return this;
@@ -83,7 +84,7 @@ export default class System {
 			specular: new _3.Color("grey"),
 		});
 		this.mesh = new _3.Mesh(geometry, material);
-		this.mesh.rotationSpeed = this.rotation;
+		this.mesh.rotationSpeed = 1;
 		this.group.add(this.mesh);
 		this.group.position.x = this.position;
 	}
@@ -117,11 +118,15 @@ export default class System {
 	}
 
 	public rotateSystem() {
-		this.group.rotation.y += this.rotation * 0.0001;
+		this.group.rotation.y += this.mesh.rotationSpeed * 0.0001;
 	}
 
 	public rotateAllSystems() {
 		this.rotateSystem();
 		this.moons.length && this.moons.forEach((moon) => moon.rotateAllSystems());
+	}
+
+	public setRotation(speed: number) {
+		this.mesh.rotationSpeed = speed;
 	}
 }
