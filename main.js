@@ -18,10 +18,12 @@ let scene,
 	Uranus,
 	Neptune,
 	AU,
-	AU_SPEED;
+	AU_SPEED,
+	timeScale;
 const init = () => {
 	// Init Universe. day1
 	{
+		timeScale = 0.01;
 		AU = 550;
 		AU_SPEED = 1;
 		scene = new _3.Scene();
@@ -58,7 +60,7 @@ const init = () => {
 	{
 		Sol = new System({
 			star: true,
-			rotation: 0.01,
+			rotation: 0.01 * timeScale,
 			name: "Sol",
 			radius: 100,
 			position: 0,
@@ -69,7 +71,7 @@ const init = () => {
 		Sol.mesh.material;
 		Sol.addMoon(
 			new System({
-				rotation: 0.01,
+				rotation: 0.01 * timeScale,
 				name: "Mercury",
 				radius: 5,
 				position: AU * 0.4,
@@ -81,19 +83,20 @@ const init = () => {
 		Mercury = Sol.getMoon("Mercury");
 		Sol.addMoon(
 			new System({
-				rotation: 0.005,
+				rotation: 0.005 * timeScale,
 				name: "Venus",
 				radius: 8,
 				position: AU * 0.7,
 				resolution: 100,
 				textureFile: "./images/venus.jpg",
+				cloudFile: "./images/venus_clouds.jpg",
 				gui,
 				gui,
 			}),
 		);
 		Sol.addMoon(
 			new System({
-				rotation: 0.007,
+				rotation: 0.007 * timeScale,
 				name: "Earth",
 				radius: 10,
 				position: 550,
@@ -107,7 +110,7 @@ const init = () => {
 		);
 		Sol.addMoon(
 			new System({
-				rotation: 0.005,
+				rotation: 0.005 * timeScale,
 				name: "Mars",
 				radius: 8,
 				position: AU * 1.5,
@@ -118,7 +121,7 @@ const init = () => {
 		);
 		Sol.addMoon(
 			new System({
-				rotation: 0.0008,
+				rotation: 0.0008 * timeScale,
 				name: "Jupiter",
 				radius: 56,
 				position: (AU * 5.2) / 2,
@@ -129,7 +132,7 @@ const init = () => {
 		);
 		Sol.addMoon(
 			new System({
-				rotation: 0.0007,
+				rotation: 0.0007 * timeScale,
 				name: "Saturn",
 				radius: 25,
 				position: (AU * 9.6) / 2,
@@ -140,7 +143,7 @@ const init = () => {
 		);
 		Sol.addMoon(
 			new System({
-				rotation: 0.0006,
+				rotation: 0.0006 * timeScale,
 				name: "Uranus",
 				radius: 29,
 				position: (AU * 19.2) / 2,
@@ -151,7 +154,7 @@ const init = () => {
 		);
 		Sol.addMoon(
 			new System({
-				rotation: 0.0004,
+				rotation: 0.0004 * timeScale,
 				name: "Neptune",
 				radius: 23,
 				position: (AU * 30) / 2,
@@ -167,7 +170,7 @@ const init = () => {
 			radius: 1,
 			position: 25,
 			resolution: 10,
-			rotation: 0.001,
+			rotation: 0.001 * timeScale,
 			textureFile: "./images/moon.jpg",
 			normalFile: "./images/moon_normal.jpg",
 			gui,
