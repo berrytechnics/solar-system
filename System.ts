@@ -114,6 +114,7 @@ export default class System {
 
 	public addMoon(moon: System) {
 		moon.pivot.position.x = this.position;
+		moon.rotation -= this.rotation;
 		this.moons.push(moon);
 		this.pivot.add(this.moons.find((m) => m.name === moon.name).pivot);
 	}

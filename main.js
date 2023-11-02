@@ -53,7 +53,7 @@ const init = () => {
 	// Init Solar System. day3
 	{
 		Sol = new System({
-			rotation: 0.0001,
+			rotation: 0.01,
 			name: "Sol",
 			radius: 100,
 			position: 0,
