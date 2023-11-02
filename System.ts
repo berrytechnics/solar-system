@@ -87,14 +87,14 @@ export default class System {
 				map: this.textureFile ? TextureLoader.load(this.textureFile) : null,
 			});
 		} else {
-			material = new _3.MeshPhongMaterial({
+			material = new _3.MeshLambertMaterial({
 				map: this.textureFile ? TextureLoader.load(this.textureFile) : null,
-				normalMap: this.normalFile ? TextureLoader.load(this.normalFile) : null,
+				// normalMap: this.normalFile ? TextureLoader.load(this.normalFile) : null,
 				normalScale: new _3.Vector2(1, 1),
 				specularMap: this.specularFile
 					? TextureLoader.load(this.specularFile)
 					: null,
-				specular: new _3.Color("grey"),
+				// specular: new _3.Color("grey"),
 			});
 		}
 		this.mesh = new _3.Mesh(geometry, material);
