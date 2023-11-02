@@ -16,8 +16,7 @@ let scene,
 	Jupiter,
 	Saturn,
 	Uranus,
-	Neptune,
-	timescale;
+	Neptune;
 const init = () => {
 	// Init Universe. day1
 	{
@@ -70,7 +69,8 @@ const init = () => {
 				name: "Mercury",
 				radius: 5,
 				position: 150,
-				resolution: 10,
+				resolution: 200,
+				textureFile: "./images/mercury.jpg",
 				gui,
 			}),
 		);
@@ -81,7 +81,9 @@ const init = () => {
 				name: "Venus",
 				radius: 8,
 				position: 350,
-				resolution: 10,
+				resolution: 100,
+				textureFile: "./images/venus.jpg",
+				gui,
 				gui,
 			}),
 		);
@@ -91,7 +93,7 @@ const init = () => {
 				name: "Earth",
 				radius: 10,
 				position: 550,
-				resolution: 10,
+				resolution: 100,
 				cloudFile: "./images/earth_clouds.png",
 				normalFile: "./images/earth_normal.jpg",
 				textureFile: "./images/earth_day.jpg",
@@ -105,7 +107,8 @@ const init = () => {
 				name: "Mars",
 				radius: 8,
 				position: 800,
-				resolution: 10,
+				resolution: 100,
+				textureFile: "./images/mars.jpg",
 				gui,
 			}),
 		);
@@ -115,7 +118,8 @@ const init = () => {
 				name: "Jupiter",
 				radius: 56,
 				position: 2000,
-				resolution: 10,
+				resolution: 100,
+				textureFile: "./images/jupiter.jpg",
 				gui,
 			}),
 		);
@@ -125,7 +129,8 @@ const init = () => {
 				name: "Saturn",
 				radius: 25,
 				position: 2800,
-				resolution: 10,
+				resolution: 100,
+				textureFile: "./images/saturn.jpg",
 				gui,
 			}),
 		);
@@ -135,7 +140,8 @@ const init = () => {
 				name: "Uranus",
 				radius: 29,
 				position: 3900,
-				resolution: 10,
+				resolution: 100,
+				textureFile: "./images/uranus.jpg",
 				gui,
 			}),
 		);
@@ -145,7 +151,8 @@ const init = () => {
 				name: "Neptune",
 				radius: 23,
 				position: 5000,
-				resolution: 10,
+				resolution: 100,
+				textureFile: "./images/neptune.jpg",
 				gui,
 			}),
 		);
