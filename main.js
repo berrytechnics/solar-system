@@ -16,7 +16,8 @@ let scene,
 	Jupiter,
 	Saturn,
 	Uranus,
-	Neptune;
+	Neptune,
+	timescale;
 const init = () => {
 	// Init Universe. day1
 	{
@@ -100,7 +101,7 @@ const init = () => {
 		);
 		Sol.addMoon(
 			new System({
-				rotation: 0.001,
+				rotation: 0.005,
 				name: "Mars",
 				radius: 8,
 				position: 800,
