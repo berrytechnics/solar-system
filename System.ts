@@ -114,6 +114,7 @@ export default class System {
 			transparent: true,
 		});
 		this.cloudMesh = new _3.Mesh(geometry, material);
+		this.cloudMesh.position.x = this.position;
 		this.pivot.add(this.cloudMesh);
 	}
 
