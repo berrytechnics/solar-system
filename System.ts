@@ -42,6 +42,7 @@ export default class System {
 	public pivot: any;
 	public cloudMesh?: any;
 	public moons: any[] = [];
+	public star: boolean;
 	private gui: any;
 
 	constructor(params: {
@@ -55,6 +56,7 @@ export default class System {
 		specularFile?: any;
 		cloudFile?: any;
 		gui?: any;
+		star?: boolean;
 	}) {
 		this.name = params.name;
 		this.radius = params.radius;
@@ -66,6 +68,7 @@ export default class System {
 		this.specularFile = params?.specularFile;
 		this.cloudFile = params?.cloudFile;
 		this.gui = params?.gui;
+		this.star = params?.star ?? false;
 		this._initMesh();
 		this.cloudFile && this._initAtmosphere();
 		return this;
@@ -78,15 +81,22 @@ export default class System {
 			this.resolution,
 			this.resolution,
 		);
-		const material = new _3.MeshPhongMaterial({
-			map: this.textureFile ? TextureLoader.load(this.textureFile) : null,
-			normalMap: this.normalFile ? TextureLoader.load(this.normalFile) : null,
-			normalScale: new _3.Vector2(1, 1),
-			specularMap: this.specularFile
-				? TextureLoader.load(this.specularFile)
-				: null,
-			specular: new _3.Color("grey"),
-		});
+		let material: _3.MeshBasicMaterial | _3.MeshPhongMaterial;
+		if (this.star) {
+			material = new _3.MeshBasicMaterial({
+				map: this.textureFile ? TextureLoader.load(this.textureFile) : null,
+			});
+		} else {
+			material = new _3.MeshPhongMaterial({
+				map: this.textureFile ? TextureLoader.load(this.textureFile) : null,
+				normalMap: this.normalFile ? TextureLoader.load(this.normalFile) : null,
+				normalScale: new _3.Vector2(1, 1),
+				specularMap: this.specularFile
+					? TextureLoader.load(this.specularFile)
+					: null,
+				specular: new _3.Color("grey"),
+			});
+		}
 		this.mesh = new _3.Mesh(geometry, material);
 		this.mesh.rotationSpeed = 1;
 		this.mesh.position.x = this.position;
@@ -130,14 +140,6 @@ export default class System {
 	public rotateAllSystems() {
 		this.rotateSystem();
 		this.moons.length && this.moons.forEach((moon) => moon.rotateAllSystems());
-	}
-
-	public setRotation(speed: number) {
-		this.mesh.rotationSpeed = speed;
-	}
-
-	public orbitChildren() {
-		return console.log(this.mesh.position, this.moons[0].mesh.position);
 	}
 
 	public static degToRad(deg: number) {

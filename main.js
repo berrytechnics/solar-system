@@ -53,6 +53,7 @@ const init = () => {
 	// Init Solar System. day3
 	{
 		Sol = new System({
+			star: true,
 			rotation: 0.01,
 			name: "Sol",
 			radius: 100,
@@ -61,7 +62,7 @@ const init = () => {
 			textureFile: "./images/sun.jpg",
 			gui,
 		});
-		Sol.setRotation(10);
+		Sol.mesh.material;
 		Sol.addMoon(
 			new System({
 				rotation: 0.01,
@@ -154,17 +155,17 @@ const init = () => {
 			radius: 1,
 			position: 25,
 			resolution: 10,
+			rotation: 0.001,
 			textureFile: "./images/moon.jpg",
 			normalFile: "./images/moon_normal.jpg",
 			gui,
 		});
 		Earth.addMoon(Luna);
-		Earth.setRotation(25);
 	}
 
 	// Init there be light. day5
-	const light = new _3.DirectionalLight("white");
-	light.position.set(-2, 2, 5);
+	const light = new _3.PointLight("white");
+	light.position.set(0, 0, 0);
 
 	// Init time. day6
 	scene.add(Sol.pivot);
