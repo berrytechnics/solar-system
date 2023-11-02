@@ -5,7 +5,7 @@ const TextureLoader = new _3.TextureLoader(manager);
  * A class that represents an orbital system.
  *
  * The parent system is the center of the whole (the sun).
- * Any system can contain any number of moons (sus-systems).
+ * Any system can contain any number of moons (sub-systems).
  * All systems are orbiting around their parent system.
  *
  * @property name
@@ -13,6 +13,7 @@ const TextureLoader = new _3.TextureLoader(manager);
  * @property resolution
  * @property position
  * @property rotation
+ * @property orbit
  * @property textureFile
  * @property normalFile
  * @property specularFile
@@ -20,13 +21,18 @@ const TextureLoader = new _3.TextureLoader(manager);
  * @property mesh
  * @property cloudMoesh
  * @property group
+ * @property pivot
  * @property moons
+ * @property star
  * @property gui
  *
  * @method getEdge gets the edge of the orbital system.
  * @method addMoon adds a moon to the orbital system.
  * @method getMoon gets a moon from the orbital system by name.
  * @method rotateSystem rotates the orbital system.
+ * @method rotateAllSystem rotates the orbital system.
+ * @method orbitSystem orbits the orbital system.
+ * @method orbitAllSystems orbits the orbital system.
  */
 export default class System {
 	public name: string;
@@ -34,6 +40,7 @@ export default class System {
 	public resolution: any;
 	public position: number;
 	public rotation: number;
+	public orbit: number;
 	public textureFile?: any;
 	public normalFile?: any;
 	public specularFile?: any;
@@ -51,6 +58,7 @@ export default class System {
 		position: number;
 		resolution: { x: number; y: number };
 		rotation: number;
+		orbit: number;
 		textureFile?: any;
 		normalFile?: any;
 		specularFile?: any;
@@ -62,6 +70,7 @@ export default class System {
 		this.radius = params.radius;
 		this.position = params.position;
 		this.rotation = params.rotation;
+		this.orbit = params.orbit;
 		this.resolution = params.resolution;
 		this.textureFile = params?.textureFile;
 		this.normalFile = params?.normalFile;
@@ -101,11 +110,12 @@ export default class System {
 		this.mesh.rotationSpeed = 1;
 		this.mesh.position.x = this.position;
 		this.pivot.add(this.mesh);
+		return this;
 	}
 
 	private _initAtmosphere() {
 		const geometry = new _3.SphereGeometry(
-			this.radius,
+			this.radius + 1,
 			this.resolution,
 			this.resolution,
 		);
@@ -126,9 +136,10 @@ export default class System {
 	public addMoon(moon: System) {
 		moon.pivot.position.x = this.position;
 		moon.pivot.rotateY(Math.random() * 10);
-		moon.rotation -= this.rotation;
+		moon.orbit -= this.orbit;
 		this.moons.push(moon);
 		this.pivot.add(this.moons.find((m) => m.name === moon.name).pivot);
+		return moon;
 	}
 
 	public getMoon(name: string) {
@@ -136,12 +147,23 @@ export default class System {
 	}
 
 	public rotateSystem() {
-		this.pivot.rotateY(this.rotation);
+		this.mesh.rotation.y += System.degToRad(this.rotation);
+		if (this.cloudMesh)
+			this.cloudMesh.rotation.y += System.degToRad(this.rotation * 0.9);
 	}
 
 	public rotateAllSystems() {
 		this.rotateSystem();
-		this.moons.length && this.moons.forEach((moon) => moon.rotateAllSystems());
+		this.moons.forEach((moon) => moon.rotateAllSystems());
+	}
+
+	public orbitSystem() {
+		!this.star && this.pivot.rotateY(this.orbit);
+	}
+
+	public orbitAllSystems() {
+		this.orbitSystem();
+		this.moons.length && this.moons.forEach((moon) => moon.orbitAllSystems());
 	}
 
 	public static degToRad(deg: number) {

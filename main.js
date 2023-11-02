@@ -10,6 +10,7 @@ let scene,
 	system,
 	Sol,
 	Earth,
+	Luna,
 	Mercury,
 	Venus,
 	Mars,
@@ -18,14 +19,14 @@ let scene,
 	Uranus,
 	Neptune,
 	AU,
-	AU_SPEED,
-	timeScale;
+	AU_TIME,
+	AU_SIZE;
 const init = () => {
 	// Init Universe. day1
 	{
-		timeScale = 0.01;
-		AU = 550;
-		AU_SPEED = 1;
+		AU_TIME = 1;
+		AU_SIZE = 100;
+		AU = AU_SIZE * 101;
 		scene = new _3.Scene();
 		camera = new _3.PerspectiveCamera(
 			50,
@@ -38,7 +39,7 @@ const init = () => {
 			antialias: true,
 		});
 		controls = new OrbitControls(camera, renderer.domElement);
-		controls.minDistance = 1;
+		controls.minDistance = 0.1;
 		controls.maxDistance = 90000;
 		renderer.setPixelRatio(window.devicePixelRatio);
 		renderer.setSize(window.innerWidth, window.innerHeight);
@@ -59,33 +60,35 @@ const init = () => {
 	// Init Solar System. day3
 	{
 		Sol = new System({
-			star: true,
-			rotation: 0.01 * timeScale,
 			name: "Sol",
-			radius: 100,
+			star: true,
+			orbit: 0.01 * AU_TIME,
+			rotation: 0.1 * AU_TIME,
+			radius: AU_SIZE * 10,
 			position: 0,
 			resolution: 200,
 			textureFile: "./images/sun.jpg",
 			gui,
 		});
 		Sol.mesh.material;
-		Sol.addMoon(
+		Mercury = Sol.addMoon(
 			new System({
-				rotation: 0.01 * timeScale,
 				name: "Mercury",
-				radius: 5,
+				orbit: 0.01 * AU_TIME,
+				rotation: 0.1 * AU_TIME,
+				radius: AU_SIZE * 0.0553,
 				position: AU * 0.4,
 				resolution: 200,
 				textureFile: "./images/mercury.jpg",
 				gui,
 			}),
 		);
-		Mercury = Sol.getMoon("Mercury");
-		Sol.addMoon(
+		Venus = Sol.addMoon(
 			new System({
-				rotation: 0.005 * timeScale,
 				name: "Venus",
-				radius: 8,
+				rotation: 0.1 * AU_TIME,
+				orbit: 0.005 * AU_TIME,
+				radius: AU_SIZE * 0.949,
 				position: AU * 0.7,
 				resolution: 100,
 				textureFile: "./images/venus.jpg",
@@ -94,12 +97,13 @@ const init = () => {
 				gui,
 			}),
 		);
-		Sol.addMoon(
+		Earth = Sol.addMoon(
 			new System({
-				rotation: 0.007 * timeScale,
+				orbit: 0.007 * AU_TIME,
 				name: "Earth",
-				radius: 10,
-				position: 550,
+				rotation: 0.1 * AU_TIME,
+				radius: AU_SIZE,
+				position: AU,
 				resolution: 100,
 				cloudFile: "./images/earth_clouds.png",
 				normalFile: "./images/earth_normal.jpg",
@@ -108,69 +112,73 @@ const init = () => {
 				gui,
 			}),
 		);
-		Sol.addMoon(
+		Mars = Sol.addMoon(
 			new System({
-				rotation: 0.005 * timeScale,
 				name: "Mars",
-				radius: 8,
+				rotation: 0.1 * AU_TIME,
+				orbit: 0.005 * AU_TIME,
+				radius: AU_SIZE * 0.532,
 				position: AU * 1.5,
 				resolution: 100,
 				textureFile: "./images/mars.jpg",
 				gui,
 			}),
 		);
-		Sol.addMoon(
+		Jupiter = Sol.addMoon(
 			new System({
-				rotation: 0.0008 * timeScale,
 				name: "Jupiter",
-				radius: 56,
+				rotation: 0.1 * AU_TIME,
+				orbit: 0.0008 * AU_TIME,
+				radius: AU_SIZE * 11.21,
 				position: (AU * 5.2) / 2,
 				resolution: 100,
 				textureFile: "./images/jupiter.jpg",
 				gui,
 			}),
 		);
-		Sol.addMoon(
+		Saturn = Sol.addMoon(
 			new System({
-				rotation: 0.0007 * timeScale,
 				name: "Saturn",
-				radius: 25,
+				rotation: 0.1 * AU_TIME,
+				orbit: 0.0007 * AU_TIME,
+				radius: AU_SIZE * 9.45,
 				position: (AU * 9.6) / 2,
 				resolution: 100,
 				textureFile: "./images/saturn.jpg",
 				gui,
 			}),
 		);
-		Sol.addMoon(
+		Uranus = Sol.addMoon(
 			new System({
-				rotation: 0.0006 * timeScale,
 				name: "Uranus",
-				radius: 29,
+				rotation: 0.1 * AU_TIME,
+				orbit: 0.0006 * AU_TIME,
+				radius: AU_SIZE * 4.01,
 				position: (AU * 19.2) / 2,
 				resolution: 100,
 				textureFile: "./images/uranus.jpg",
 				gui,
 			}),
 		);
-		Sol.addMoon(
+		Neptune = Sol.addMoon(
 			new System({
-				rotation: 0.0004 * timeScale,
 				name: "Neptune",
-				radius: 23,
+				rotation: 0.1 * AU_TIME,
+				orbit: 0.0004 * AU_TIME,
+				radius: AU_SIZE * 3.88,
 				position: (AU * 30) / 2,
 				resolution: 100,
 				textureFile: "./images/neptune.jpg",
 				gui,
 			}),
 		);
-
-		Earth = Sol.getMoon("Earth");
-		const Luna = new System({
+		Luna = new System({
 			name: "Luna",
-			radius: 1,
-			position: 25,
+			rotation: 0.1 * AU_TIME,
+			radius: 0.25 * AU_SIZE,
+			position: AU * 0.02531 + Earth.radius,
 			resolution: 10,
-			rotation: 0.001 * timeScale,
+			orbit: 0.001 * AU_TIME,
 			textureFile: "./images/moon.jpg",
 			normalFile: "./images/moon_normal.jpg",
 			gui,
@@ -192,6 +200,7 @@ const init = () => {
 const animate = () => {
 	requestAnimationFrame(animate);
 	Sol.rotateAllSystems();
+	// Sol.orbitAllSystems();
 	renderer.render(scene, camera);
 };
 
