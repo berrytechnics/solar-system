@@ -16,10 +16,14 @@ let scene,
 	Jupiter,
 	Saturn,
 	Uranus,
-	Neptune;
+	Neptune,
+	AU,
+	AU_SPEED;
 const init = () => {
 	// Init Universe. day1
 	{
+		AU = 550;
+		AU_SPEED = 1;
 		scene = new _3.Scene();
 		camera = new _3.PerspectiveCamera(
 			50,
@@ -68,7 +72,7 @@ const init = () => {
 				rotation: 0.01,
 				name: "Mercury",
 				radius: 5,
-				position: 150,
+				position: AU * 0.4,
 				resolution: 200,
 				textureFile: "./images/mercury.jpg",
 				gui,
@@ -80,7 +84,7 @@ const init = () => {
 				rotation: 0.005,
 				name: "Venus",
 				radius: 8,
-				position: 350,
+				position: AU * 0.7,
 				resolution: 100,
 				textureFile: "./images/venus.jpg",
 				gui,
@@ -106,7 +110,7 @@ const init = () => {
 				rotation: 0.005,
 				name: "Mars",
 				radius: 8,
-				position: 800,
+				position: AU * 1.5,
 				resolution: 100,
 				textureFile: "./images/mars.jpg",
 				gui,
@@ -117,7 +121,7 @@ const init = () => {
 				rotation: 0.0008,
 				name: "Jupiter",
 				radius: 56,
-				position: 2000,
+				position: (AU * 5.2) / 2,
 				resolution: 100,
 				textureFile: "./images/jupiter.jpg",
 				gui,
@@ -128,7 +132,7 @@ const init = () => {
 				rotation: 0.0007,
 				name: "Saturn",
 				radius: 25,
-				position: 2800,
+				position: (AU * 9.6) / 2,
 				resolution: 100,
 				textureFile: "./images/saturn.jpg",
 				gui,
@@ -139,7 +143,7 @@ const init = () => {
 				rotation: 0.0006,
 				name: "Uranus",
 				radius: 29,
-				position: 3900,
+				position: (AU * 19.2) / 2,
 				resolution: 100,
 				textureFile: "./images/uranus.jpg",
 				gui,
@@ -150,7 +154,7 @@ const init = () => {
 				rotation: 0.0004,
 				name: "Neptune",
 				radius: 23,
-				position: 5000,
+				position: (AU * 30) / 2,
 				resolution: 100,
 				textureFile: "./images/neptune.jpg",
 				gui,
