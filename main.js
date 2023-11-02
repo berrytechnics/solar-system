@@ -3,7 +3,20 @@ import * as _3 from "three";
 import System from "./System";
 import { gui } from "dat.gui";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-let scene, camera, renderer, controls, system, Sol, Earth;
+let scene,
+	camera,
+	renderer,
+	controls,
+	system,
+	Sol,
+	Earth,
+	Mercury,
+	Venus,
+	Mars,
+	Jupiter,
+	Saturn,
+	Uranus,
+	Neptune;
 const init = () => {
 	// Init Universe. day1
 	{
@@ -40,6 +53,7 @@ const init = () => {
 	// Init Solar System. day3
 	{
 		Sol = new System({
+			rotation: 0.0001,
 			name: "Sol",
 			radius: 100,
 			position: 0,
@@ -50,6 +64,7 @@ const init = () => {
 		Sol.setRotation(10);
 		Sol.addMoon(
 			new System({
+				rotation: 0.01,
 				name: "Mercury",
 				radius: 5,
 				position: 150,
@@ -57,8 +72,10 @@ const init = () => {
 				gui,
 			}),
 		);
+		Mercury = Sol.getMoon("Mercury");
 		Sol.addMoon(
 			new System({
+				rotation: 0.005,
 				name: "Venus",
 				radius: 8,
 				position: 350,
@@ -68,6 +85,7 @@ const init = () => {
 		);
 		Sol.addMoon(
 			new System({
+				rotation: 0.007,
 				name: "Earth",
 				radius: 10,
 				position: 550,
@@ -81,6 +99,7 @@ const init = () => {
 		);
 		Sol.addMoon(
 			new System({
+				rotation: 0.001,
 				name: "Mars",
 				radius: 8,
 				position: 800,
@@ -90,6 +109,7 @@ const init = () => {
 		);
 		Sol.addMoon(
 			new System({
+				rotation: 0.0008,
 				name: "Jupiter",
 				radius: 56,
 				position: 2000,
@@ -99,6 +119,7 @@ const init = () => {
 		);
 		Sol.addMoon(
 			new System({
+				rotation: 0.0007,
 				name: "Saturn",
 				radius: 25,
 				position: 2800,
@@ -108,6 +129,7 @@ const init = () => {
 		);
 		Sol.addMoon(
 			new System({
+				rotation: 0.0006,
 				name: "Uranus",
 				radius: 29,
 				position: 3900,
@@ -117,6 +139,7 @@ const init = () => {
 		);
 		Sol.addMoon(
 			new System({
+				rotation: 0.0004,
 				name: "Neptune",
 				radius: 23,
 				position: 5000,
@@ -144,7 +167,7 @@ const init = () => {
 	light.position.set(-2, 2, 5);
 
 	// Init time. day6
-	scene.add(Sol.group);
+	scene.add(Sol.pivot);
 	scene.add(light);
 	scene.add(new _3.AmbientLight("white", 0.1));
 	renderer.render(scene, camera);

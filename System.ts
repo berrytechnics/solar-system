@@ -33,13 +33,14 @@ export default class System {
 	public radius: number;
 	public resolution: any;
 	public position: number;
+	public rotation: number;
 	public textureFile?: any;
 	public normalFile?: any;
 	public specularFile?: any;
 	public cloudFile?: any;
 	public mesh: any;
+	public pivot: any;
 	public cloudMesh?: any;
-	public group = new _3.Group();
 	public moons: any[] = [];
 	private gui: any;
 
@@ -48,6 +49,7 @@ export default class System {
 		radius: number;
 		position: number;
 		resolution: { x: number; y: number };
+		rotation: number;
 		textureFile?: any;
 		normalFile?: any;
 		specularFile?: any;
@@ -57,6 +59,7 @@ export default class System {
 		this.name = params.name;
 		this.radius = params.radius;
 		this.position = params.position;
+		this.rotation = params.rotation;
 		this.resolution = params.resolution;
 		this.textureFile = params?.textureFile;
 		this.normalFile = params?.normalFile;
@@ -69,6 +72,7 @@ export default class System {
 	}
 
 	private _initMesh() {
+		this.pivot = new _3.Object3D();
 		const geometry = new _3.SphereGeometry(
 			this.radius,
 			this.resolution,
@@ -85,8 +89,8 @@ export default class System {
 		});
 		this.mesh = new _3.Mesh(geometry, material);
 		this.mesh.rotationSpeed = 1;
-		this.group.add(this.mesh);
-		this.group.position.x = this.position;
+		this.mesh.position.x = this.position;
+		this.pivot.add(this.mesh);
 	}
 
 	private _initAtmosphere() {
@@ -100,7 +104,7 @@ export default class System {
 			transparent: true,
 		});
 		this.cloudMesh = new _3.Mesh(geometry, material);
-		this.group.add(this.cloudMesh);
+		this.pivot.add(this.cloudMesh);
 	}
 
 	public getEdge() {
@@ -109,8 +113,9 @@ export default class System {
 	}
 
 	public addMoon(moon: System) {
+		moon.pivot.position.x = this.position;
 		this.moons.push(moon);
-		this.group.add(this.moons.find((m) => m.name === moon.name).group);
+		this.pivot.add(this.moons.find((m) => m.name === moon.name).pivot);
 	}
 
 	public getMoon(name: string) {
@@ -118,7 +123,7 @@ export default class System {
 	}
 
 	public rotateSystem() {
-		this.group.rotation.y += this.mesh.rotationSpeed * 0.0001;
+		this.pivot.rotateY(this.rotation);
 	}
 
 	public rotateAllSystems() {
@@ -128,5 +133,17 @@ export default class System {
 
 	public setRotation(speed: number) {
 		this.mesh.rotationSpeed = speed;
+	}
+
+	public orbitChildren() {
+		return console.log(this.mesh.position, this.moons[0].mesh.position);
+	}
+
+	public static degToRad(deg: number) {
+		return (deg * Math.PI) / 180;
+	}
+
+	public static radToDeg(rad: number) {
+		return (rad * 180) / Math.PI;
 	}
 }
