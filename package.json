@@ -1,20 +1,22 @@
 {
-  "name": "solar-system",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "devDependencies": {
-    "@types/dat.gui": "^0.7.11",
-    "vite": "^3.1.0"
-  },
-  "dependencies": {
-    "@types/three": "^0.157.2",
-    "dat.gui": "^0.7.9",
-    "three": "^0.145.0"
-  }
+	"name": "solar-system",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"dev2": "vite realism/main",
+		"build": "vite build",
+		"preview": "vite preview"
+	},
+	"devDependencies": {
+		"@types/dat.gui": "^0.7.11",
+		"vite": "^3.1.0"
+	},
+	"dependencies": {
+		"@types/three": "^0.157.2",
+		"dat.gui": "^0.7.9",
+		"three": "^0.145.0",
+		"three-noise": "^1.1.2"
+	}
 }

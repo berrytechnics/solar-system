@@ -31,8 +31,8 @@ const init = () => {
 		camera = new _3.PerspectiveCamera(
 			50,
 			window.innerWidth / window.innerHeight,
-			0.1,
-			200000,
+			10,
+			20000000,
 		);
 		renderer = new _3.WebGLRenderer({
 			canvas: document.querySelector("#c"),
@@ -40,7 +40,7 @@ const init = () => {
 		});
 		controls = new OrbitControls(camera, renderer.domElement);
 		controls.minDistance = 0.1;
-		controls.maxDistance = 90000;
+		controls.maxDistance = 1000000;
 		renderer.setPixelRatio(window.devicePixelRatio);
 		renderer.setSize(window.innerWidth, window.innerHeight);
 		camera.position.setZ(10000);
@@ -49,9 +49,9 @@ const init = () => {
 
 	// Init space. day2
 	const space = new _3.Mesh(
-		new _3.SphereGeometry(100000, 100, 100),
+		new _3.SphereGeometry(1000000, 32, 32),
 		new _3.MeshBasicMaterial({
-			map: new _3.TextureLoader().load("images/space.jpg"),
+			map: new _3.TextureLoader().load("./images/space.jpg"),
 		}),
 	);
 	space.material.side = _3.BackSide;
