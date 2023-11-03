@@ -47,7 +47,7 @@ export default class OrbitalBody {
 			const sample = noise.get3(
 				new _3.Vector3(vertices[i], vertices[i + 1], vertices[i + 2]),
 			);
-			vertices[i] += sample;
+			// vertices[i] += sample;
 		}
 		return this;
 	}
