@@ -23,7 +23,7 @@ const init = () => {
 	// Init Universe. day1
 	{
 		_CONSTANTS = {
-			timescale: 0.0001,
+			timescale: 0.01,
 		};
 		scene = new _3.Scene();
 		camera = new _3.PerspectiveCamera(
@@ -41,7 +41,7 @@ const init = () => {
 		controls.maxDistance = 90000;
 		renderer.setPixelRatio(window.devicePixelRatio);
 		renderer.setSize(window.innerWidth, window.innerHeight);
-		camera.position.setZ(10000);
+		camera.position.setZ(300);
 	}
 	controls.update();
 
@@ -56,13 +56,13 @@ const init = () => {
 	scene.add(space);
 
 	// Init Solar System. day3
-	Sol = new OrbitalBody(0, 100, 1, 32, { star: true });
+	Sol = new OrbitalBody(0, 100, 1, 128, { star: true });
 	console.log(Sol.mesh);
 	scene.add(Sol.pivot);
 
 	// Init there be light. day5
 	const light = new _3.PointLight("white");
-	light.position.set(1000000, 10000000, 0);
+	light.position.set(100000, 100000, 0);
 
 	// Init time. day6
 	// scene.add(Sol.pivot);

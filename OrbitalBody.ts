@@ -1,8 +1,6 @@
 import * as _3 from "three";
 import { Perlin } from "three-noise";
 const noise = new Perlin(Math.random());
-const manager = new _3.LoadingManager();
-const TextureLoader = new _3.TextureLoader(manager);
 export default class OrbitalBody {
 	public star: boolean = false;
 	public mass: number;
@@ -24,18 +22,10 @@ export default class OrbitalBody {
 		this.pivot = new _3.Object3D();
 
 		// Generate Mesh.
-		let material: _3.MeshLambertMaterial | _3.MeshBasicMaterial;
-		if (this.star) {
-			material = new _3.MeshLambertMaterial({
-				color: new _3.Color("white"),
-				wireframe: true,
-				reflectivity: 0.001,
-			});
-		} else {
-			material = new _3.MeshBasicMaterial({
-				color: new _3.Color("white"),
-			});
-		}
+		let material: any;
+		material = new _3.MeshNormalMaterial({
+			flatShading: true,
+		});
 		const geometry = new _3.SphereGeometry(radius, resolution, resolution);
 		this.mesh = new _3.Mesh(geometry, material);
 		this.pivot.add(this.mesh);
@@ -43,12 +33,19 @@ export default class OrbitalBody {
 
 		// Generate Terrain.
 		const vertices = geometry.attributes.position.array;
-		for (let i = 0; i < vertices.length; i += 3) {
-			const sample = noise.get3(
-				new _3.Vector3(vertices[i], vertices[i + 1], vertices[i + 2]),
-			);
-			// vertices[i] += sample;
+		for (let i = 0; i < vertices.length; i += 2) {
+			const sample =
+				noise.get2(new _3.Vector3(vertices[i], vertices[i + 1])) * 3;
+			vertices[i] += sample;
 		}
+
+		// Generate Starlight.
+		if (this.star) {
+			const light = new _3.PointLight(new _3.Color("#fdb813"), 1, 1000);
+			light.position.set(position, 1000, 0);
+			this.pivot.add(light);
+		}
+
 		return this;
 	}
 
