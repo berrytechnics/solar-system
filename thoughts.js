@@ -1,3 +1,24 @@
+// Icosahedron noise terrain
+// public void UpdateNoise(/* int layer,*/ float amplitude, float period)//, float frequency)
+// {
+//     List<Vector3> original  = Octaves[Octaves.Count - 2];//input verts
+//     List<Vector3> octave    = new List<Vector3>();
+
+//     for ( int i = 0; i < original.Count; i++)
+//     {
+//         Vector3 normal = original[i].normalized;
+//         float u = (normal.x * period);
+//         float v = (normal.y * period);
+//         float noise = Mathf.PerlinNoise(u, v);
+//         Vector3 vector = original[i] + ((normal * noise) * amplitude);
+
+//         octave.Add(vector);
+//     }        
+//     this.vertices = octave;//output verts
+//     //Octaves[Octaves.Count - 1] = octave;
+// }
+
+
 //Create an array of threejs spheres of varying sizes.
 //Need initial position and velocity.
 //surface_gravity = 9.80665 M/s^2 (on earth)
