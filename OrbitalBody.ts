@@ -23,20 +23,20 @@ export default class OrbitalBody {
 
 		// Generate Mesh.
 		let material: any;
-		material = new _3.MeshNormalMaterial({
+		material = new _3.MeshStandardMaterial({
 			flatShading: true,
 		});
-		const geometry = new _3.SphereGeometry(radius, resolution, resolution);
+		// const geometry = new _3.SphereGeometry(radius, resolution, resolution);
+		const geometry = new _3.IcosahedronGeometry(radius, resolution);
 		this.mesh = new _3.Mesh(geometry, material);
 		this.pivot.add(this.mesh);
 		this.mesh.position.x = position;
 
 		// Generate Terrain.
-		const vertices = geometry.attributes.position.array;
+		const vertices = this.mesh.geometry.attributes.position.array;
 		for (let i = 0; i < vertices.length; i += 2) {
-			const sample =
-				noise.get2(new _3.Vector3(vertices[i], vertices[i + 1])) * 3;
-			vertices[i] += sample;
+			const sample = noise.get2(new _3.Vector3(vertices[i], vertices[i + 1]));
+			// vertices[i] += sample;
 		}
 
 		// Generate Starlight.
@@ -47,6 +47,11 @@ export default class OrbitalBody {
 		}
 
 		return this;
+	}
+
+	public updateVertices(callback: (vertices: _3.TypedArray) => void) {
+		const vertices = this.mesh.geometry.attributes.position.array;
+		callback(vertices);
 	}
 
 	public rotateBody(timescale: number = 1) {
